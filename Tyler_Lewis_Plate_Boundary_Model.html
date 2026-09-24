@@ -1,0 +1,50 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plate Boundary Model - Tyler Lewis</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f4f4;padding:20px;text-align:center}
+select,button{padding:10px;border-radius:8px;border:1px solid #555;margin:5px}
+#model{max-width:850px;margin:20px auto;background:white;border:2px solid #333;border-radius:12px;padding:20px}
+#earth{height:250px;position:relative;overflow:hidden;border-radius:10px;background:linear-gradient(#bfe7ff 0 28%,#9b5b35 28% 48%,#d27d4a 48% 100%)}
+.plate{position:absolute;top:90px;height:90px;width:42%;background:#777;border:4px solid #444;transition:all 1s}
+.left{left:4%}.right{right:4%}
+.arrow{position:absolute;top:120px;font-size:45px;font-weight:bold;transition:all 1s}
+.a1{left:38%}.a2{right:38%}
+#label{font-size:18px;font-weight:bold;margin:15px}
+#explain{max-width:700px;margin:auto;line-height:1.5}
+</style></head>
+<body>
+<h1>Plate Boundary Model</h1>
+<p>Name: Tyler Lewis</p>
+<div id="model">
+<select id="type" onchange="show()">
+<option value="convergent">Convergent Boundary</option>
+<option value="divergent">Divergent Boundary</option>
+<option value="transform">Transform Boundary</option>
+</select>
+<div id="earth">
+<div class="plate left" id="p1"></div><div class="plate right" id="p2"></div>
+<div class="arrow a1" id="ar1">→</div><div class="arrow a2" id="ar2">←</div>
+</div>
+<div id="label"></div><p id="explain"></p>
+</div>
+<script>
+function show(){
+ const t=document.getElementById('type').value,p1=document.getElementById('p1'),p2=document.getElementById('p2'),
+ ar1=document.getElementById('ar1'),ar2=document.getElementById('ar2');
+ if(t==='convergent'){
+   p1.style.left='9%';p2.style.right='9%';ar1.textContent='→';ar2.textContent='←';
+   document.getElementById('label').textContent='Convergent: plates move toward each other.';
+   document.getElementById('explain').textContent='At a convergent boundary, plates collide. One plate may subduct beneath another, forming earthquakes, volcanoes, trenches, or mountains.';
+ } else if(t==='divergent'){
+   p1.style.left='0%';p2.style.right='0%';ar1.textContent='←';ar2.textContent='→';
+   document.getElementById('label').textContent='Divergent: plates move apart.';
+   document.getElementById('explain').textContent='At a divergent boundary, plates separate. Magma can rise and cool to form new crust, especially at mid-ocean ridges.';
+ } else {
+   p1.style.left='0%';p2.style.right='0%';ar1.textContent='↓';ar2.textContent='↑';
+   document.getElementById('label').textContent='Transform: plates slide past each other.';
+   document.getElementById('explain').textContent='At a transform boundary, plates slide horizontally past one another. Friction can cause earthquakes.';
+ }
+}
+show();
+</script></body></html>

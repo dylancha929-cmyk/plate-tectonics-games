@@ -1,0 +1,42 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plate Tectonics Matching Game - Tyler Lewis</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px;text-align:center}
+h1{margin-bottom:5px} .sub{margin-top:0}
+#board{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:900px;margin:20px auto}
+.card{min-height:90px;border:2px solid #333;border-radius:10px;background:#222;color:transparent;cursor:pointer;font-weight:bold;padding:10px;font-size:14px;display:flex;align-items:center;justify-content:center}
+.card.flipped,.card.matched{background:white;color:#111} .card.matched{border-color:#555}
+button{padding:10px 16px;border:0;border-radius:8px;cursor:pointer;font-weight:bold}
+#status{font-size:18px;font-weight:bold}
+@media(max-width:650px){#board{grid-template-columns:repeat(4,1fr)}.card{min-height:75px;font-size:12px}}
+</style></head>
+<body>
+<h1>Plate Tectonics Matching / Memory Game</h1>
+<p class="sub">Name: Tyler Lewis • Match each vocabulary term with its correct definition.</p>
+<p id="status">Matches: 0 / 20</p>
+<button onclick="location.reload()">Restart</button>
+<div id="board"></div>
+<script>
+const cards=[{"id": 0, "kind": "term", "text": "Plate Tectonics"}, {"id": 0, "kind": "definition", "text": "The theory that Earth's outer shell is divided into moving plates."}, {"id": 1, "kind": "term", "text": "Crust"}, {"id": 1, "kind": "definition", "text": "The thin, solid outer layer of Earth."}, {"id": 2, "kind": "term", "text": "Mantle"}, {"id": 2, "kind": "definition", "text": "The hot layer beneath the crust where convection occurs."}, {"id": 3, "kind": "term", "text": "Convection"}, {"id": 3, "kind": "definition", "text": "Heat-driven movement in the mantle that helps move plates."}, {"id": 4, "kind": "term", "text": "Convergent Boundary"}, {"id": 4, "kind": "definition", "text": "A boundary where two tectonic plates move toward each other."}, {"id": 5, "kind": "term", "text": "Divergent Boundary"}, {"id": 5, "kind": "definition", "text": "A boundary where two tectonic plates move apart."}, {"id": 6, "kind": "term", "text": "Transform Boundary"}, {"id": 6, "kind": "definition", "text": "A boundary where two plates slide past each other."}, {"id": 7, "kind": "term", "text": "Subduction"}, {"id": 7, "kind": "definition", "text": "When one tectonic plate sinks beneath another plate."}, {"id": 8, "kind": "term", "text": "Fault"}, {"id": 8, "kind": "definition", "text": "A crack in Earth's crust where movement can occur."}, {"id": 9, "kind": "term", "text": "Earthquake"}, {"id": 9, "kind": "definition", "text": "Shaking caused by sudden movement along a fault."}, {"id": 10, "kind": "term", "text": "Volcano"}, {"id": 10, "kind": "definition", "text": "An opening where magma, ash, and gases can reach the surface."}, {"id": 11, "kind": "term", "text": "Tsunami"}, {"id": 11, "kind": "definition", "text": "A series of large ocean waves usually caused by seafloor movement."}, {"id": 12, "kind": "term", "text": "Landform"}, {"id": 12, "kind": "definition", "text": "A natural feature of Earth's surface."}, {"id": 13, "kind": "term", "text": "Seafloor Spreading"}, {"id": 13, "kind": "definition", "text": "The process that creates new ocean crust at mid-ocean ridges."}, {"id": 14, "kind": "term", "text": "Continental Drift"}, {"id": 14, "kind": "definition", "text": "The idea that continents slowly move over geologic time."}, {"id": 15, "kind": "term", "text": "Paleomagnetism"}, {"id": 15, "kind": "definition", "text": "Evidence from magnetic patterns preserved in rocks."}, {"id": 16, "kind": "term", "text": "Magma"}, {"id": 16, "kind": "definition", "text": "Molten rock beneath Earth's surface."}, {"id": 17, "kind": "term", "text": "Lava"}, {"id": 17, "kind": "definition", "text": "Molten rock that reaches Earth's surface."}, {"id": 18, "kind": "term", "text": "Lithosphere"}, {"id": 18, "kind": "definition", "text": "The rigid outer layer made of crust and upper mantle."}, {"id": 19, "kind": "term", "text": "Asthenosphere"}, {"id": 19, "kind": "definition", "text": "The softer layer beneath the lithosphere that plates move over."}];
+cards.sort(()=>Math.random()-0.5);
+const board=document.getElementById('board'); let first=null, second=null, lock=false, matches=0;
+cards.forEach((c,i)=>{
+ const el=document.createElement('div'); el.className='card'; el.dataset.id=c.id; el.dataset.kind=c.kind; el.textContent=c.text;
+ el.onclick=()=>{
+   if(lock||el.classList.contains('flipped')||el.classList.contains('matched')) return;
+   el.classList.add('flipped');
+   if(!first){first=el;return;}
+   second=el; lock=true;
+   if(first.dataset.id===second.dataset.id && first.dataset.kind!==second.dataset.kind){
+      first.classList.add('matched'); second.classList.add('matched'); matches++;
+      document.getElementById('status').textContent=`Matches: ${matches} / 20`;
+      first=null; second=null; lock=false;
+      if(matches===20) document.getElementById('status').textContent='You matched all 20 pairs! Great job!';
+   } else {
+      setTimeout(()=>{first.classList.remove('flipped');second.classList.remove('flipped');first=null;second=null;lock=false},900);
+   }
+ };
+ board.appendChild(el);
+});
+</script></body></html>

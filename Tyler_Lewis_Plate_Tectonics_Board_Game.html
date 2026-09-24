@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plate Tectonics Board Game - Tyler Lewis</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px;text-align:center}
+#board{max-width:850px;margin:20px auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.space{background:white;border:2px solid #333;border-radius:8px;min-height:80px;display:flex;align-items:center;justify-content:center;font-weight:bold;padding:8px;cursor:pointer}
+.start{background:#ddd} .finish{background:#ddd}
+#card{max-width:700px;margin:15px auto;background:white;border:2px solid #333;border-radius:12px;padding:20px;min-height:120px}
+button{padding:10px 15px;border:0;border-radius:8px;margin:4px;cursor:pointer}
+#answer{display:none;margin-top:10px;font-weight:bold}
+</style></head>
+<body>
+<h1>Plate Tectonics Board Game</h1>
+<p>Name: Tyler Lewis • 25-space game</p>
+<p><b>How to play:</b> Use a coin or die to move. Click the space you land on for a question. Correct answer = move 1 extra space. First player to FINISH wins.</p>
+<div id="board"></div>
+<div id="card"><h2 id="qtitle">Click a space</h2><p id="qtext">Each numbered space has a plate-tectonics question.</p><p id="answer"></p><button onclick="showAnswer()">Show Answer</button></div>
+<script>
+const qs=[["What is a tectonic plate?", "A rigid piece of Earth's lithosphere that moves over the asthenosphere."], ["What happens at a convergent boundary?", "Two plates move toward each other."], ["What happens at a divergent boundary?", "Two plates move apart."], ["What happens at a transform boundary?", "Two plates slide past each other."], ["What is subduction?", "When one plate sinks beneath another plate."], ["What causes many earthquakes?", "Sudden movement along faults or plate boundaries."], ["What is seafloor spreading?", "New ocean crust forms as magma rises at mid-ocean ridges."], ["What is continental drift?", "The idea that continents move slowly over geologic time."], ["What is paleomagnetism?", "Magnetic evidence preserved in rocks that records Earth's magnetic field."], ["Name one effect of convergent boundaries.", "Earthquakes, volcanoes, trenches, or mountains."], ["What is magma?", "Molten rock beneath Earth's surface."], ["What is lava?", "Molten rock that reaches Earth's surface."], ["What is a fault?", "A crack in Earth's crust where movement can occur."], ["What is a tsunami?", "Large ocean waves often caused by sudden seafloor movement."], ["What is the mantle?", "The hot layer beneath Earth's crust."], ["What is convection?", "Heat-driven movement that helps transfer energy through the mantle."], ["What is a volcano?", "An opening where magma, ash, and gases can reach the surface."], ["What is the lithosphere?", "Earth's rigid outer layer made of crust and uppermost mantle."], ["What is the asthenosphere?", "A softer layer beneath the lithosphere that plates move over."], ["Why is Earth\u2019s crust recycled at some boundaries?", "Old crust can be forced into the mantle at subduction zones."]];
+const board=document.getElementById('board');
+for(let i=1;i<=25;i++){
+ const s=document.createElement('div');s.className='space';s.textContent=i===1?'START':i===25?'FINISH':i;s.onclick=()=>{
+   if(i===1||i===25){document.getElementById('qtitle').textContent=s.textContent;document.getElementById('qtext').textContent=i===1?'Start the game!':'You reached the finish!';document.getElementById('answer').style.display='none';return;}
+   const q=qs[(i-2)%qs.length];document.getElementById('qtitle').textContent='Space '+i;document.getElementById('qtext').textContent=q[0];document.getElementById('answer').textContent='Answer: '+q[1];document.getElementById('answer').style.display='none';
+ };board.appendChild(s);
+}
+function showAnswer(){document.getElementById('answer').style.display='block'}
+</script></body></html>
